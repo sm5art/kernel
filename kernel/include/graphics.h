@@ -14,5 +14,3 @@ void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg);
 unsigned int k_printf(char *message, int line);
 void k_clear_screen();
 void fb_move_cursor(unsigned short pos);
-void outb(unsigned short port, unsigned char data);
-char inb(unsigned char port);
