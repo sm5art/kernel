@@ -1,4 +1,4 @@
-OBJECTS =build/start.o build/kmain.o build/graphics.o
+OBJECTS =build/start.o build/kmain.o build/graphics.o build/gdt.o
 
 KERNEL=build/kernel.elf
 CC=gcc -m32 -c -Iinclude
