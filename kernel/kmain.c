@@ -6,11 +6,13 @@
 
 #include "graphics.h"
 #include "gdt.h"
+#include "idt.h"
 
 /* simple kernel written in C */
 void k_main()
 {
 	k_clear_screen();
 	gdt_install();
+	idt_install();
 	k_printf("hey now\r\nyour an allstar");
 };

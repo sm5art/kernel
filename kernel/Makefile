@@ -1,4 +1,4 @@
-OBJECTS =build/start.o build/kmain.o build/graphics.o build/gdt.o
+OBJECTS =build/start.o build/kmain.o build/graphics.o build/gdt.o build/idt.o build/system.o
 
 KERNEL=build/kernel.elf
 CC=gcc -Wall -m32 -c -Iinclude -Wno-error
