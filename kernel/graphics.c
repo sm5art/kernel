@@ -1,4 +1,9 @@
 #include "graphics.h"
+#include "system.h"
+#include "syscall.h"
+
+int csr_x = 0;
+int csr_y = 0;
 
 void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg)
 {
@@ -19,26 +24,81 @@ void k_clear_screen()
 	};
 };
 
-/* k_printf : the message and the line # */
-unsigned int k_printf(char *message, int line)
+void move_csr(void)
 {
-	unsigned int i=0;
-  i=(line*80*2);
+    int temp;
 
-	while(*message!=0)
-	{
-		if(*message=='\n') // check for a new line
-		{
-      line++;
-			i=(line*80*2);
-			*message++;
-		} else {
-      char a = (char)*message;
-			fb_write_cell(i, a, FB_DARK_GREY, WHITE_TXT);
-			*message++;
-      i++;
-      i++;
-		};
-	};
+    /* The equation for finding the index in a linear
+    *  chunk of memory can be represented by:
+    *  Index = [(y * width) + x] */
+    temp = csr_y * 80 + csr_x;
+
+    /* This sends a command to indicies 14 and 15 in the
+    *  CRT Control Register of the VGA controller. These
+    *  are the high and low bytes of the index that show
+    *  where the hardware cursor is to be 'blinking'. To
+    *  learn more, you should look up some VGA specific
+    *  programming documents. A great start to graphics:
+    *  http://www.brackeen.com/home/vga */
+    outb(0x3D4, 14);
+    outb(0x3D5, temp >> 8);
+    outb(0x3D4, 15);
+    outb(0x3D5, temp);
+}
+
+void k_putc(char c){
+  /* Handle a backspace, by moving the cursor back one space */
+  if(c == 0x08)
+  {
+      if(csr_x != 0) csr_x--;
+  }
+  /* Handles a tab by incrementing the cursor's x, but only
+  *  to a point that will make it divisible by 8 */
+  else if(c == 0x09)
+  {
+      csr_x = (csr_x + 8) & ~(8 - 1);
+  }
+  /* Handles a 'Carriage Return', which simply brings the
+  *  cursor back to the margin */
+  else if(c == '\r')
+  {
+      csr_x = 0;
+  }
+  /* We handle our newlines the way DOS and the BIOS do: we
+  *  treat it as if a 'CR' was also there, so we bring the
+  *  cursor to the margin and we increment the 'y' value */
+  else if(c == '\n')
+  {
+      csr_x = 0;
+      csr_y++;
+  }
+  /* Any character greater than and including a space, is a
+  *  printable character. The equation for finding the index
+  *  in a linear chunk of memory can be represented by:
+  *  Index = [(y * width) + x] */
+  else if(c >= ' ')
+  {
+      fb_write_cell((2*csr_x)+(2*csr_y*80), c, FB_DARK_GREY, WHITE_TXT);
+      csr_x++;
+  }
+
+  /* If the cursor has reached the edge of the screen's width, we
+  *  insert a new line in there */
+  if(csr_x >= 80)
+  {
+      csr_x = 0;
+      csr_y++;
+  }
+
+  move_csr();
+}
+
+/* k_printf : the message and the line # */
+unsigned int k_printf(char *message)
+{
+  int i;
+  for (i=0; i< strlen(message); i++){
+    k_putc(message[i]);
+  }
 	return(1);
 }

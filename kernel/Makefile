@@ -1,7 +1,7 @@
 OBJECTS =build/start.o build/kmain.o build/graphics.o build/gdt.o
 
 KERNEL=build/kernel.elf
-CC=gcc -m32 -c -Iinclude
+CC=gcc -Wall -m32 -c -Iinclude -Wno-error
 AS=nasm -f elf32
 LD=ld -m elf_i386 -T link.ld
 BUILD_DIR=build/
