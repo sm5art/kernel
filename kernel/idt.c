@@ -1,5 +1,6 @@
 #include "system.h"
 #include "idt.h"
+#include "interrupt.h"
 
 void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, unsigned char flags)
 {
@@ -21,7 +22,8 @@ void idt_install()
     memset(&idt, 0, sizeof(struct idt_entry) * 256);
 
     /* Add any new ISRs to the IDT here using idt_set_gate */
-
+    idt_set_gate( 0, isr0 , 0x08, 0x8E);
+    idt_set_gate( 1, isr1 , 0x08, 0x8E);
     /* Points the processor's internal register to the new IDT */
     idt_load();
 }
