@@ -16,5 +16,6 @@ void k_main()
 	idt_install();
 	k_printf("hey now\r\nyour an allstar");
 	asm volatile ("int $0x0"); //testing interrupts
-	asm volatile ("int $0x1"); //testing interrupts
+	asm volatile ("int $0x3"); //testing interrupts
+	asm volatile ("int $0x1A");
 };

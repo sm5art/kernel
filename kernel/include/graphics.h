@@ -9,3 +9,4 @@ void k_clear_screen();
 void move_csr(void);
 void k_putc(char c);
 unsigned int k_printf(char *message);
+void print_d(int n);

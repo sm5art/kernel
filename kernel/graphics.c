@@ -24,6 +24,21 @@ void k_clear_screen()
 	};
 };
 
+void print_d(int n){
+   if (n < 0) {
+       k_putc('-');
+       n = -n;
+   }
+
+   if (n == 0)
+       k_putc('0');
+
+   if (n/10)
+       print_d(n/10);
+
+   k_putc(n%10 + '0');
+}
+
 void move_csr(void)
 {
     int temp;
