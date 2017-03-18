@@ -7,6 +7,7 @@
 #include "graphics.h"
 #include "gdt.h"
 #include "idt.h"
+#include "timer.h"
 
 /* simple kernel written in C */
 void k_main()
@@ -15,7 +16,6 @@ void k_main()
 	gdt_install();
 	idt_install();
 	k_printf("hey now\r\nyour an allstar");
-	asm volatile ("int $0x0"); //testing interrupts
-	asm volatile ("int $0x3"); //testing interrupts
-	asm volatile ("int $0x1A");
+	asm volatile("sti");
+	init_timer(50);
 };

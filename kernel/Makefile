@@ -1,4 +1,4 @@
-OBJECTS =build/start.o build/kmain.o build/graphics.o build/gdt.o build/idt.o build/system.o build/interrupt.o build/isr.o
+OBJECTS =build/start.o build/kmain.o build/graphics.o build/gdt.o build/idt.o build/system.o build/interrupt.o build/isr.o build/irq.o build/timer.o
 
 KERNEL=build/kernel.elf
 CC=gcc -Wall -m32 -c -Iinclude -Wno-error
@@ -19,7 +19,7 @@ ${BUILD_DIR}%.o : %.c
 	${CC} $< -o $@
 
 run: ${KERNEL}
-	qemu-system-i386 -kernel ${KERNEL}
+	qemu-system-i386 -m 2G -kernel ${KERNEL}
 
 clean:
 	rm -rf ${KERNEL} ${BUILD_DIR}*.o ${BUILD_DIR}*.img

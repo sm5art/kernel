@@ -1,5 +1,7 @@
 #include "system.h"
 #include "idt.h"
+#include "irq.h"
+#include "syscall.h"
 #include "interrupt.h"
 
 void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, unsigned char flags)
@@ -21,6 +23,16 @@ void idt_install()
     /* Clear out the entire IDT, initializing it to zeros */
     memset(&idt, 0, sizeof(struct idt_entry) * 256);
 
+    outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+    outb(0x21, 0x20);
+    outb(0xA1, 0x28);
+    outb(0x21, 0x04);
+    outb(0xA1, 0x02);
+    outb(0x21, 0x01);
+    outb(0xA1, 0x01);
+    outb(0x21, 0x0);
+    outb(0xA1, 0x0);
     /* Add any new ISRs to the IDT here using idt_set_gate */
     idt_set_gate( 0, isr0 , 0x08, 0x8E);
     idt_set_gate( 1, isr1 , 0x08, 0x8E);
@@ -55,6 +67,22 @@ void idt_install()
     idt_set_gate( 30, isr30 , 0x08, 0x8E);
     idt_set_gate( 31, isr31 , 0x08, 0x8E);
 
+    idt_set_gate(32, (long)irq0, 0x08, 0x8E);
+    idt_set_gate(33, (long)irq1, 0x08, 0x8E);
+    idt_set_gate(34, (long)irq2, 0x08, 0x8E);
+    idt_set_gate(35, (long)irq3, 0x08, 0x8E);
+    idt_set_gate(36, (long)irq4, 0x08, 0x8E);
+    idt_set_gate(37, (long)irq5, 0x08, 0x8E);
+    idt_set_gate(38, (long)irq6, 0x08, 0x8E);
+    idt_set_gate(39, (long)irq7, 0x08, 0x8E);
+    idt_set_gate(40, (long)irq8, 0x08, 0x8E);
+    idt_set_gate(41, (long)irq9, 0x08, 0x8E);
+    idt_set_gate(42, (long)irq10, 0x08, 0x8E);
+    idt_set_gate(43, (long)irq11, 0x08, 0x8E);
+    idt_set_gate(44, (long)irq12, 0x08, 0x8E);
+    idt_set_gate(45, (long)irq13, 0x08, 0x8E);
+    idt_set_gate(46, (long)irq14, 0x08, 0x8E);
+    idt_set_gate(47, (long)irq15, 0x08, 0x8E);
     /* Points the processor's internal register to the new IDT */
     idt_load();
 }

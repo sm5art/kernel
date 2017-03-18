@@ -62,6 +62,11 @@ void move_csr(void)
 }
 
 void k_putc(char c){
+  if(csr_x >= 0 & csr_y >= 25){
+    csr_x = 0;
+    csr_y = 0;
+    k_clear_screen();
+  }
   /* Handle a backspace, by moving the cursor back one space */
   if(c == 0x08)
   {
