@@ -16,7 +16,7 @@ struct gdt_ptr
     unsigned int base;
 } __attribute__((packed));
 
-struct gdt_entry gdt[3];
+struct gdt_entry gdt[5];
 struct gdt_ptr gp;
 
 extern void gdt_flush();

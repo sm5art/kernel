@@ -3,9 +3,16 @@
 #include "syscall.h"
 #include "graphics.h"
 
+int tick = 0;
+
 void timer_cb(struct registers regs)
 {
-  k_printf("Tick tock\n");
+  if(tick % 50 == 0){
+    k_printf("Seconds: ");
+    print_d(tick/50);
+    k_printf("\n");
+  }
+  tick++;
 }
 
 void init_timer(int frequency)

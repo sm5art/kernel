@@ -30,7 +30,7 @@ start:
 
 	call k_main
 
-	hlt ; halt the CPU
+	jmp $ ; halt the CPU
 
 ; This will set up our new segment registers. We need to do
 ; something special in order to set CS. We do what is called a

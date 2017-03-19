@@ -67,22 +67,23 @@ void idt_install()
     idt_set_gate( 30, isr30 , 0x08, 0x8E);
     idt_set_gate( 31, isr31 , 0x08, 0x8E);
 
-    idt_set_gate(32, (long)irq0, 0x08, 0x8E);
-    idt_set_gate(33, (long)irq1, 0x08, 0x8E);
-    idt_set_gate(34, (long)irq2, 0x08, 0x8E);
-    idt_set_gate(35, (long)irq3, 0x08, 0x8E);
-    idt_set_gate(36, (long)irq4, 0x08, 0x8E);
-    idt_set_gate(37, (long)irq5, 0x08, 0x8E);
-    idt_set_gate(38, (long)irq6, 0x08, 0x8E);
-    idt_set_gate(39, (long)irq7, 0x08, 0x8E);
-    idt_set_gate(40, (long)irq8, 0x08, 0x8E);
-    idt_set_gate(41, (long)irq9, 0x08, 0x8E);
-    idt_set_gate(42, (long)irq10, 0x08, 0x8E);
-    idt_set_gate(43, (long)irq11, 0x08, 0x8E);
-    idt_set_gate(44, (long)irq12, 0x08, 0x8E);
-    idt_set_gate(45, (long)irq13, 0x08, 0x8E);
-    idt_set_gate(46, (long)irq14, 0x08, 0x8E);
-    idt_set_gate(47, (long)irq15, 0x08, 0x8E);
+    idt_set_gate(32, irq0, 0x08, 0x8E);
+    idt_set_gate(33, irq1, 0x08, 0x8E);
+    idt_set_gate(34, irq2, 0x08, 0x8E);
+    idt_set_gate(35, irq3, 0x08, 0x8E);
+    idt_set_gate(36, irq4, 0x08, 0x8E);
+    idt_set_gate(37, irq5, 0x08, 0x8E);
+    idt_set_gate(38, irq6, 0x08, 0x8E);
+    idt_set_gate(39, irq7, 0x08, 0x8E);
+    idt_set_gate(40, irq8, 0x08, 0x8E);
+    idt_set_gate(41, irq9, 0x08, 0x8E);
+    idt_set_gate(42, irq10, 0x08, 0x8E);
+    idt_set_gate(43, irq11, 0x08, 0x8E);
+    idt_set_gate(44, irq12, 0x08, 0x8E);
+    idt_set_gate(45, irq13, 0x08, 0x8E);
+    idt_set_gate(46, irq14, 0x08, 0x8E);
+    idt_set_gate(47, irq15, 0x08, 0x8E);
     /* Points the processor's internal register to the new IDT */
     idt_load();
+    irq_init();
 }

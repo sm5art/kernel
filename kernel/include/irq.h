@@ -40,6 +40,7 @@ struct registers
   unsigned long eip, cs, eflags, useresp, ss;
 };
 
-typedef void (*isr_t)(struct registers*);
+typedef void (*isr_t)(struct registers);
 extern void irq_handler(struct registers regs);
 extern void register_interrupt_handler(short n, isr_t handler);
+extern void irq_init();

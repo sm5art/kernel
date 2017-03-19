@@ -1,8 +1,13 @@
 #include "irq.h"
 #include "syscall.h"
 #include "graphics.h"
+#include "system.h"
 
 isr_t interrupt_handlers[256];
+
+void irq_init(){
+  memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
+}
 
 // This gets called from our ASM interrupt handler stub.
 void irq_handler(struct registers regs)
@@ -21,7 +26,7 @@ void irq_handler(struct registers regs)
 
        isr_t handler = interrupt_handlers[regs.int_no];
 
-       handler(&regs);
+       handler(regs);
    }
 }
 
